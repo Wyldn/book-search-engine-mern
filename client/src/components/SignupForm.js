@@ -34,7 +34,24 @@ const SignupForm = () => {
       event.stopPropagation();
     }
 
-    
+    try {
+      const { data } = await addUser({
+        variables: { ...userFormData },
+      });
+
+      Auth.login(data.addUser.token);
+    } catch (err) {
+      console.error(err);
+      setShowAlert(true);
+    }
+
+    setUserFormData({
+      username: "",
+      email: "",
+      password: "",
+    });
+  };
+
   return (
     <>
       {/* This is needed for the validation functionality above */}
